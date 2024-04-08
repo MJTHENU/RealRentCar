@@ -24,8 +24,27 @@ class ReservationController extends Controller
     {
         $user = auth()->user();
         $car = Car::find($car_id);
-        return view('reservation.create', compact('car', 'user'));
+        
+        // Retrieve data from query parameters
+        $enquiry = (object) [
+            'name' => request()->query('name'),
+            'email' => request()->query('email'),
+            'address' => request()->query('address'),
+            'mobile_no' => request()->query('mobile_no'),
+            'start_loc' => request()->query('start_loc'),
+            'end_loc' => request()->query('end_loc'),
+            'desc' => request()->query('desc'),
+            'start_date' => request()->query('start_date'),
+            'end_date' => request()->query('end_date'),
+            'seat' => request()->query('seat'),
+            'luggage' => request()->query('luckage'),
+            'vehicle_type' => request()->query('vehicle_type'),
+            'AC' => request()->query('AC')
+        ];
+    
+        return view('reservation.create', compact('car', 'user', 'enquiry'));
     }
+    
 
     public function show(Reservation $reservation)
     {
@@ -60,8 +79,12 @@ class ReservationController extends Controller
         $reservation->status = 'Pending';
         $reservation->payment_method = 'At store';
         $reservation->payment_status = 'Pending';
+
+
         $reservation->save();
 
+
+        
         $car->status = 'Reserved';
         $car->save();
 

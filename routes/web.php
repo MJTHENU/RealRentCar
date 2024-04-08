@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\EnquiryController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\clientCarController;
 use App\Http\Controllers\adminDashboardController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\carSearchController;
 use App\Http\Controllers\driverDashboardController;
 use App\Http\Controllers\ownerDashboardController;
 use App\Models\User;
+use App\Models\Enquiry;
 use App\Models\Car;
 use App\Models\Reservation;
 use App\Http\Middleware\AdminMiddleware;
@@ -23,7 +25,7 @@ use App\Http\Controllers\homeController;
 
 // ------------------- guest routes --------------------------------------- //
 Route::get('/', [homeController::class, 'index'])->name('home');
-
+Route::post('/enquiry', 'App\Http\Controllers\homeController@submitReservation')->name('enquiry_details');
 
 
 
@@ -32,6 +34,9 @@ Route::get('/', function () {
     $cars = Car::take(6)->where('status', '=', 'available')->get();
     return view('home', compact('cars'));
 })->name('home');
+
+Route::get('/viewenquiry', [EnquiryController::class, 'index'])->name('enquiry');
+Route::get('/storeenquiry', [EnquiryController::class, 'store'])->name('store_enquiry');
 
 Route::get('/cars', [clientCarController::class, 'index'])->name('cars');
 Route::get('/cars/search', [carSearchController::class, 'search'])->name('carSearch');

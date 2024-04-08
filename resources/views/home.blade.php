@@ -16,13 +16,38 @@
                     </div>
                    <!--enquiry form start-->
                    <div class="px-6 md:me-8">
-                   <form action="{{ route('cars') }}" method="GET">
- 
-                       
+                   <form id="reservation_form" action="{{ route('enquiry_details') }}"
+                        method="POST">
                         @csrf
                         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                       <div class="sm:col-span-3">
-                                <label for="start_date" class="block text-sm font-medium leading-6 text-gray-900">Start at
+
+
+                            <div class="sm:col-span-3">
+                                <label for="full-name" class="block text-sm font-medium leading-6 text-gray-900">Start Location
+                                    </label>
+                                <div class="mt-2">
+                                    <input type="text" name="start_location" id="full-name"
+                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
+                                </div>
+                                @error('start_location')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="sm:col-span-3">
+                                <label for="email"
+                                    class="block text-sm font-medium leading-6 text-gray-900">End Location</label>
+                                <div class="mt-2">
+                                    <input type="text" name="end_location" id="email"
+                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
+                                </div>
+                                @error('end_location')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="sm:col-span-3">
+                                <label for="start_date" class="block text-sm font-medium leading-6 text-gray-900">Start Date
                                 </label>
                                 <div class="mt-2">
                                     <input type="date" name="start_date" id="start_date"
@@ -33,7 +58,7 @@
                                 @enderror
                             </div>
                             <div class="sm:col-span-3">
-                                <label for="end_date" class="block text-sm font-medium leading-6 text-gray-900">End at
+                                <label for="end_date" class="block text-sm font-medium leading-6 text-gray-900">End Date
                                 </label>
                                 <div class="mt-2">
                                     <input type="date" name="end_date" id="end_date"
@@ -44,13 +69,12 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="mt-12 md:block hidden">
-                        <button type="submit" class="text-white bg-pr-400 p-3 w-full rounded-lg font-bold hover:bg-black shadow-xl hover:shadow-none block text-center">
-    SEARCH AVAILABLE CARS
-</button>
-                     </div>
-
-                    </form>
+                        <div class="mt-12 md:block hidden  ">
+                            <button type="submit"
+                                class="text-white bg-pr-400 p-3 w-full rounded-lg font-bold hover:bg-black shadow-xl hover:shadow-none ">Search
+                                </button>
+                        </div>
+                    </form>
                 </div>
                    <!--enquiry form end-->
 

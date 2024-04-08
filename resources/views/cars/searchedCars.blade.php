@@ -1,16 +1,15 @@
 @extends('layouts.myapp')
 @section('content')
+
     <div class="max-w-screen-xl p-3 mx-auto mt-10 bg-gray-200 rounded-md shadow-xl">
-        <form action="">
+        <form action="{{route('carSearch')}}" >
            <div class="flex justify-center md:flex-row flex-col md:gap-28 gap-4">
                 <div class="flex justify-evenly md:flex-row flex-col md:gap-16 gap-2">
-                    <input type="text" placeholder="brand" name="brand"
+                    <input type="text" placeholder="Seat" name="seat" 
                         class="block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
-                    <input type="text" placeholder="model" name="model"
+                    <input type="text" placeholder="AC" name="ac" 
                         class="block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
-                    <input type="number" placeholder="$ minimum price " name="min_price"
-                        class="block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
-                    <input type="number" placeholder="$ maximum price " name="max_price"
+                    <input type="text" placeholder="Luggage" name="luggage" 
                         class="block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
                 </div>
                 <div>
@@ -23,14 +22,19 @@
                         </button>
                     </a>
                 </div>
-            </div>
+</div>
         </form>
     </div>
     <div class="mt-6 mb-2 grid md:grid-cols-3  justify-center items-center mx-auto max-w-screen-xl">
         @forelse ($cars as $car)
+       
             <div
                 class="relative flex flex-col w-full max-w-xs m-10 overflow-hidden bg-white border border-gray-100 rounded-lg shadow-md">
-                <a class="relative flex mx-3 mt-3 overflow-hidden h-60 rounded-xl" href="{{ route('car.reservation', ['car' => $car->id]) }}">
+
+              
+                <a href="{{ route('car.reservation', ['car' => $car->id]) }}">
+
+
                     <img loading="lazy" class="object-cover" src="{{ $car->image }}" alt="product image" />
                     <span
                         class="absolute top-0 left-0 px-2 m-2 text-sm font-medium text-center text-white rounded-full bg-pr-400">{{ $car->reduce }}
@@ -63,7 +67,23 @@
                                 class="mr-2 ml-3 rounded bg-pr-300 px-2.5 py-0.5 text-xs font-semibold">{{ $car->stars }}.0</span>
                         </div>
                     </div>
-                    <a href="{{ route('car.reservation', ['car' => $car->id]) }}"
+                   
+                    <a href="{{ route('car.reservation', [
+    'car' => $car->id,
+    'name' => $enquiry->name,
+    'vehicle_type' => $enquiry->vehicle_type,
+    'email' => request()->query('email'),
+    'address' => request()->query('address'),
+    'mobile_no' => request()->query('mobile_no'),
+    'start_loc' => request()->query('start_loc'),
+    'end_loc' => request()->query('end_loc'),
+    'desc' => request()->query('desc'),
+    'start_date' => request()->query('start_date'),
+    'end_date' => request()->query('end_date'),
+    'seat' => request()->query('seat'),
+    'luggage' => request()->query('luckage'),
+    'AC' => request()->query('AC')
+]) }}"
                         class="flex items-center justify-center rounded-md bg-slate-900 hover:bg-pr-400 px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300">
                         <svg id="thisicon" class="w-6 h-6 mr-4" xmlns="http://www.w3.org/2000/svg" height="1em"
                             viewBox="0 0 512 512">
@@ -75,7 +95,8 @@
                             <path
                                 d="M184 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H96c-35.3 0-64 28.7-64 64v16 48V448c0 35.3 28.7 64 64 64H416c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H376V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H184V24zM80 192H432V448c0 8.8-7.2 16-16 16H96c-8.8 0-16-7.2-16-16V192zm176 40c-13.3 0-24 10.7-24 24v48H184c-13.3 0-24 10.7-24 24s10.7 24 24 24h48v48c0 13.3 10.7 24 24 24s24-10.7 24-24V352h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H280V256c0-13.3-10.7-24-24-24z" />
                         </svg>
-                        Reserve </a>
+                        Reserve 
+                    </a>
                 </div>
             </div>
         @empty
@@ -93,6 +114,6 @@
 
 
     <div class="flex justify-center w-full mb-12">
-        {{ $cars->links('pagination::tailwind') }}
+        
     </div>
 @endsection

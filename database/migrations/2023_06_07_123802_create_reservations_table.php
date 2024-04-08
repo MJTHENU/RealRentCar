@@ -14,19 +14,24 @@ return new class extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-
             $table->unsignedBigInteger('car_id');
-            $table->foreign('car_id')->references('id')->on('cars');
-
             $table->date('start_date');
             $table->date('end_date');
-            $table->integer('days');
-            $table->decimal('price_per_day', 10, 2);
-            $table->decimal('total_price');
-            $table->string('status')->default('active');
-            $table->string('payment_method');
-            $table->string('payment_status')->default('pending');
+            $table->decimal('start_km', 10, 0)->default(0);
+            $table->decimal('end_km', 10, 0)->default(0);
+            $table->time('start_hr')->default(0);
+            $table->time('end_hr')->default(0);
+            $table->enum('plan_type', ['per_km', 'per_hr', 'per_day', '']);
+            $table->integer('days')->nullable();
+            $table->decimal('kilometer', 10, 0)->nullable();
+            $table->decimal('hours', 10, 0)->nullable();
+            $table->integer('price_per_km')->default(0);
+            $table->integer('price_per_hr')->default(0);
+            $table->decimal('price_per_day', 10, 2)->default(0);
+            $table->decimal('total_price', 8, 2)->default(0);
+            $table->string('status', 255)->default('active');
+            $table->string('payment_method', 255)->nullable();
+            $table->string('payment_status', 255)->default('pending');
             $table->timestamps();
         });
     }

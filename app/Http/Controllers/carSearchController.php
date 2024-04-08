@@ -10,34 +10,30 @@ class carSearchController extends Controller
     public function search(Request $request)
     {
         // Parse prices to int
-        $minPrice = intval($request->min_price);
-        $maxPrice = intval($request->max_price);
+        // $minPrice = intval($request->min_price);
+        // $maxPrice = intval($request->max_price);
 
         // Prepare the base query to select cars
         $query = Car::query();
 
         // Check if the 'brand' input is provided and add the filter to the query
-        if ($request->filled('brand')) {
-            $query->where('brand', 'like', '%' . $request->brand . '%');
+        if ($request->filled('vehicle_type')) {
+            $query->where('vehicle_type', 'like', '%' . $request->vehicle_type . '%');
         }
-
+ 
         // Check if the 'model' input is provided and add the filter to the query
-        if ($request->filled('model')) {
-            $query->where('model', 'like', '%' . $request->model . '%');
+        if ($request->filled('seat')) {
+            $query->where('seat', 'like', '%' . $request->seat . '%');
         }
-
-        // Check if the 'min_price' input is provided and add the filter to the query
-        if ($request->filled('min_price')) {
-            $minPrice = is_numeric($request->min_price) ? $request->min_price : 0;
-            $query->where('price_per_day', '>=', $minPrice);
+ 
+        if ($request->filled('ac')) {
+            $query->where('ac', 'like', '%' . $request->ac . '%');
         }
-
-        // Check if the 'max_price' input is provided and add the filter to the query
-        if ($request->filled('max_price')) {
-            $maxPrice = is_numeric($request->max_price) ? $request->max_price : PHP_INT_MAX;
-            $query->where('price_per_day', '<=', $maxPrice);
+ 
+        if ($request->filled('luggage')) {
+            $query->where('luggage', 'like', '%' . $request->luggage . '%');
         }
-
+ 
         // Add the 'status' filter to only show available cars
         $query->where('status', '=', 'available');
 
@@ -48,6 +44,22 @@ class carSearchController extends Controller
         $cars->appends($request->except('page'));
 
 
-        return view('cars.searchedCars', compact('cars'));
+
+        $enquiry = new Enquiry();
+        $enquiry->name= $request->name;
+        $enquiry->email = $request->email;
+        $enquiry->address = $request->address;
+        $enquiry->mobile_no = $request->mobile_no;
+        $enquiry->start_loc = $request->start_loc;
+        $enquiry->end_loc = $request->end_loc;
+        $enquiry->desc = $request->desc;
+        $enquiry->start_date = $request->start_date;
+        $enquiry->end_date = $request->end_date;
+        $enquiry->seat = $request->seat;
+        $enquiry->luggage = $request->luckage;
+        $enquiry->vehicle_type = $request->vehicle_type;
+        $enquiry->AC = $request->AC;
+
+        return view('cars.searchedCars', compact('cars','enquiry'));
     }
 }

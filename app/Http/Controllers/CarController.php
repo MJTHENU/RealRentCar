@@ -32,39 +32,57 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
+            'email' => 'required',
+            'vehicle_type' => 'required',
             'brand' => 'required',
             'model' => 'required',
             'engine' => 'required',
-            'quantity' => 'required',
-            'price_per_day' => 'required',
-            'insurance_status' => 'required',
+            'quantity' => 'required|integer',
+            'seat' => 'required|integer',
+            'price_per_km' => 'required|numeric',
+            'price_per_hr' => 'required|numeric',
+            'price_per_day' => 'required|numeric',
+            'luggage' => 'required|integer',
+            'ac' => 'required|in:yes,no',
+           // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+           // 'insurance_status' => 'required',
             'status' => 'required',
-            'reduce' => 'required',
-            'stars' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
+            'approval' => 'required',
+            'vehicle_id' => 'required',
+            'vehicle_type' => 'required',
         ]);
-
+    
         $car = new Car;
+        $car->email_id = $request->email;
+      
         $car->brand = $request->brand;
         $car->model = $request->model;
         $car->engine = $request->engine;
         $car->quantity = $request->quantity;
+        $car->seat = $request->seat;
+        $car->vehicle_type = $request->vehicle_type;
+        $car->price_per_km = $request->price_per_km;
+        $car->price_per_hr = $request->price_per_hr;
         $car->price_per_day = $request->price_per_day;
-        // $car->insurance_status = $request->insurance_status;
+        $car->luggage = $request->luggage;
+        $car->ac = $request->ac;
+        $car->insurance_status = $request->insurance_status;
         $car->status = $request->status;
         $car->reduce = $request->reduce;
         $car->stars = $request->stars;
-
+        $car->approval = $request->approval;
+        $car->vehicle_id = $request->vehicle_id;
+    
         if ($request->hasFile('image')) {
             $imageName = $request->brand . '-' . $request->model . '-' . $request->engine . '-' . Str::random(10) . '.' . $request->file('image')->extension();
             $image = $request->file('image');
             $path = $image->storeAs('images/cars', $imageName);
-            $car->image = '/'.$path;
+            $car->image = '/' . $path;
         }
+    
         $car->save();
-
+    
         return redirect()->route('cars.index');
     }
 

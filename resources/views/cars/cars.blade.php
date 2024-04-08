@@ -2,25 +2,20 @@
 @section('content')
 
 <!-- Example of displaying the dates -->
-<p>Start Date: {{ $start_date }}</p>
-<p>End Date: {{ $end_date }}</p>
+
 
     <div class="bg-gray-200 mx-auto max-w-screen-xl mt-10 p-3 rounded-md shadow-xl">
         <form action="{{route('carSearch')}}">
             <div class="flex justify-center md:flex-row flex-col md:gap-28 gap-4">
-                <div class="flex justify-evenly md:flex-row flex-col md:gap-16 gap-2">
-                    <input type="text" placeholder="brand" name="brand"
-                    class="block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6"
-                >
-                <input type="text" placeholder="model" name="model"
-                    class="block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6"
-                >
-                <input type="number" placeholder="$ minimum price " name="min_price"
-                    class="block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6"
-                >
-                <input type="number" placeholder="$ maximum price " name="max_price"
-                    class="block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6"
-                >
+            <div class="flex justify-evenly md:flex-row flex-col md:gap-16 gap-2">
+                    <input type="text" placeholder="Vehicle_type" name="vehicle_type"
+                        class="block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
+                    <input type="text" placeholder="Seat" name="seat" 
+                        class="block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
+                    <input type="text" placeholder="AC" name="ac" 
+                        class="block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
+                    <input type="text" placeholder="Luggage" name="luggage" 
+                        class="block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
                 </div>
                 <button class="bg-pr-400 rounded-md text-white p-2 w-20 font-medium hover:bg-pr-500" type="submit" placeholder="brand"> Search</button>
             </div>
@@ -38,17 +33,22 @@
                         %
                         OFF</span>
                 </a>
+                
                 <div class="mt-4 px-5 pb-5">
                     <div>
                         <h5 class=" font-bold text-xl tracking-tight text-slate-900">{{ $car->brand }} {{ $car->model }}
-                            {{ $car->engine }}</h5>
+                            {{ $car->engine }}  <span
+                        class="mr-2 ml-3 rounded bg-pr-300 px-2.5 py-0.5 text-center text-sm font-medium text-white"> {{ $car->AC === 'yes' ? 'AC' : 'Non AC' }}
+                        </span></h5>
+                            
                     </div>
                     <div class="mt-2 mb-5 flex items-center justify-between">
                         <p>
-                            <span class="text-3xl font-bold text-slate-900">{{ $car->price_per_day }}</span>
-                            <span
-                                class="text-sm text-slate-900 line-through">{{ intval(($car->price_per_day * 100) / (100 - $car->reduce)) }}
-                            </span>
+                        <span class="mr-2 ml-3 rounded bg-pr-300 px-2.5 py-0.5 text-xs font-bold">Passengers  {{ $car->passenger }}</span>
+                           
+                        <span class="mr-2 ml-3 rounded bg-pr-300 px-2.5 py-0.5 text-xs font-bold">Luggage {{ $car->luggage }}</span>
+                       
+                            <!-- <span class="text-sm text-slate-900 line-through">{{ $car->luggage }}</span> -->
                         </p>
 
                         <div class="flex items-center">
@@ -84,6 +84,6 @@
 
 
     <div class="flex justify-center mb-12 w-full">
-        {{ $cars->links('pagination::tailwind') }}
+     
     </div>
 @endsection

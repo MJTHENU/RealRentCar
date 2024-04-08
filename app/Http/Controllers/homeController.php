@@ -13,7 +13,46 @@ class homeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+      
+     function listUser() {
+
+        $users = User::all();
+
+        return view('test', compact('users'));
+     }
+
+    public function submitReservation(Request $request)
+    {
+        // Validate the form data
+        $validatedData = $request->validate([
+            'start_location' => 'required|string',
+            'end_location' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            // Add more validation rules as needed
+        ]);
+    
+        // Query available cars based on the form data
+        $cars = Car::where('status', '=', 'available')->paginate(9);
+    
+        // Pass the form data and the list of cars to the view
+        // return view('enquiry', [
+        //     'cars' => $cars,
+        //     'start_location' => $request->input('start_location'),
+        //     'end_location' => $request->input('end_location'),
+        //     'startDate' => $request->input('start_date'),
+        //     'endDate' => $request->input('end_date'),
+        // ]);
+        $start_location = $request->input('start_location');
+         $end_location = $request->input('end_location');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        
+        return view('enquiry', compact('cars','start_location', 'end_location', 'startDate', 'endDate')); // Corrected variable names
+    }
+ 
+
+  public function index(Request $request)
 {
     $start = Carbon::parse($request->start_date); // Ensure $request is injected and available
     $end = Carbon::parse($request->end_date);

@@ -39,7 +39,7 @@ class driverDashboardController extends Controller
         $drivers = User::where('role', 'driver')->count();
         $users = User::all()->count(); 
         $owners = User::where('role', 'owner')->count();
-        $cars = Car::all();
+       
 
         $reservations = Reservation::paginate(8);
         $insurances = Insurance::all();
