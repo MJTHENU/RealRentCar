@@ -5,19 +5,20 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class CarController extends Controller
 {
-    /**
+
+     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $cars = Car::paginate(8);
+        $cars = Car::paginate(10);
         return response()->json(['message' => 'Cars retrieved successfully', 'data' => $cars], 200);
     }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -41,7 +42,7 @@ class CarController extends Controller
             'insurance_status' => 'required',
             'status' => 'required',
             'reduce' => 'required',
-            'stars' => 'required',
+            'stars' => 'required|string', // Ensure stars is a string
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Adjust the max file size as needed
         ]);
 
@@ -49,16 +50,24 @@ class CarController extends Controller
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
+        // Debugging: Check the request data
+        Log::info('Request Data: ' . json_encode($request->all()));
+
+        // Debugging: Check the uploaded file
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            Log::info('Uploaded File Name: ' . $file->getClientOriginalName());
+            Log::info('Uploaded File Extension: ' . $file->getClientOriginalExtension());
+        }
+
+        // Create the car
         $car = Car::create($validator->validated());
 
         return response()->json(['message' => 'Car added successfully', 'data' => $car], 201);
     }
 
-     /**
+    /**
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -71,10 +80,6 @@ class CarController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
@@ -96,8 +101,8 @@ class CarController extends Controller
             'insurance_status' => 'required',
             'status' => 'required',
             'reduce' => 'required',
-            'stars' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Adjust the max file size as needed
+            'stars' => 'required|string', // Ensure stars is a string
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Adjust the max file size as needed
         ]);
 
         if ($validator->fails()) {
@@ -116,9 +121,6 @@ class CarController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -129,5 +131,4 @@ class CarController extends Controller
         $car->delete();
         return response()->json(['message' => 'Car deleted successfully'], 204);
     }
-
 }
