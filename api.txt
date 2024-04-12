@@ -2,6 +2,7 @@ Postman Run Sample Input Data
 
 Register Form
 @@@@@@@@@@@@@
+endpoint:http://127.0.0.1:8000/api/register
 {
     "name": "test",
     "email": "t1@example.com",
@@ -13,4 +14,13 @@ Register Form
     "mobile_no": "1234567890",
     "role": "owner",
     "insurance_number": "ABCD1234"
+}
+ ***    *****   *****   ***
+Login Form
+@@@@@@@@@@@@@
+endpoint:http://127.0.0.1:8000/api/login
+{
+    
+    "email": "t1@example.com",
+    "password": "password123"
 }
