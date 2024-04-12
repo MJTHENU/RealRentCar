@@ -9,6 +9,8 @@
 
 {{$car->model}}
 
+
+
     <div class="mx-auto max-w-screen-xl bg-white rounded-md p-6 m-8 ">
         <div class="flex justify-between md:flex-row flex-col ">
             {{-- -------------------------------------------- left -------------------------------------------- --}}
@@ -43,7 +45,7 @@
                         method="POST">
                         @csrf
                         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                        <input type="hidden" name="combinedacseat" value="{{ $combinedacseat }}">
+                         <input type="hidden" name="combinedacseat" value="{{ $combinedacseat }}">
 
                             <input type="text" hidden name="user" value="{{ Auth::user()->id }}">
 
@@ -73,8 +75,9 @@
 
                             
 
-
-                            <div class="sm:col-span-3">
+                <!--date-->
+                
+                            <div class="sm:col-span-3 hidden" id="date_inputs">
                                 <label for="start_date" class="block text-sm font-medium leading-6 text-gray-900">Start at
                                 </label>
                                 <div class="mt-2">
@@ -85,7 +88,9 @@
                                     <span class="text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="sm:col-span-3">
+                
+               
+                            <div class="sm:col-span-3 hidden"  id="end_date_inputs">
                                 <label for="end_date" class="block text-sm font-medium leading-6 text-gray-900">End at
                                 </label>
                                 <div class="mt-2">
@@ -96,8 +101,63 @@
                                     <span class="text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
+         
+                    <!--km-->
+                  
+                            <div class="sm:col-span-3 hidden" id="km_inputs">
+                                <label for="start_km" class="block text-sm font-medium leading-6 text-gray-900">Start km
+                                </label>
+                                <div class="mt-2">
+                                    <input type="number" name="start_km" id="start_km" 
+                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
+                                </div>
+                                @error('start_km')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="sm:col-span-3 hidden" id="end_km_inputs">
+                                <label for="end_km" class="block text-sm font-medium leading-6 text-gray-900">End km
+                                </label>
+                                <div class="mt-2">
+                                    <input type="number" name="end_km" id="end_km" 
+                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
+                                </div>
+                                @error('end_km')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+                   
+
+                        
+                    <!--time-->
+                
+                            <div class="sm:col-span-3 hidden" id="time_inputs">
+                                <label for="start_time" class="block text-sm font-medium leading-6 text-gray-900">Start time
+                                </label>
+                                <div class="mt-2">
+                                    <input type="time" name="start_time" id="start_time" 
+                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
+                                </div>
+                                @error('start_time')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="sm:col-span-3 hidden" id="end_time_inputs">
+                                <label for="end_time" class="block text-sm font-medium leading-6 text-gray-900">End time
+                                </label>
+                                <div class="mt-2">
+                                    <input type="time" name="end_time" id="end_time" 
+                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
+                                </div>
+                                @error('end_time')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
+                  
+
+                    
                         <div class="sm:col-span-6">
                                 <label class="block text-sm font-medium leading-6 text-gray-900">Plan</label>
                                 <div class="mt-2 flex space-x-6">
@@ -218,28 +278,7 @@
         //     });
         // });
 
-        $(document).ready(function() {
-            $('input[name="plan"]').change(function() {
-                var selectedPlan = $('input[name="plan"]:checked').val();
-
-                // Update fields based on the selected plan
-                if (selectedPlan === 'per_km') {
-                    var pricePerKm = {{ $car->price_per_km }};
-                    $('#duration span').text('1 km');
-                    $('#total-price span').text(pricePerKm + ' Rs');
-                } else if (selectedPlan === 'per_hr') {
-                    var pricePerHr = {{ $car->price_per_hr }};
-                    $('#duration span').text('1 hour');
-                    $('#total-price span').text(pricePerHr + ' RS');
-                } else if (selectedPlan === 'per_day') {
-                    var pricePerDay = {{ $car->price_per_day }};
-                    $('#duration span').text('1 day');
-                    $('#total-price span').text(pricePerDay + ' RS');
-                }
-            });
-        });
-
-
+       
         document.getElementById("mobile_submit_button").addEventListener("click", function() {
             document.getElementById("reservation_form").submit();
         });

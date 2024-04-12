@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('car_id');
+            $table->unsignedBigInteger('tariff_id')->nullable();
+            
             $table->date('start_date');
             $table->date('end_date');
             $table->decimal('start_km', 10, 0)->default(0);

@@ -1,7 +1,6 @@
 @extends('layouts.myapp')
 @section('content')
 
-{{$enquiry->name}}
     <div class="bg-gray-200 mx-auto max-w-screen-xl mt-10 p-3 rounded-md shadow-xl">
         <form action="{{route('carSearch')}}">
             <div class="flex justify-center md:flex-row flex-col md:gap-28 gap-4">

@@ -1,0 +1,16 @@
+Postman Run Sample Input Data
+
+Register Form
+@@@@@@@@@@@@@
+{
+    "name": "test",
+    "email": "t1@example.com",
+    "password": "password123",
+    "password_confirmation": "password123",
+    "address1": "123 Street",
+    "city": "Cityville",
+    "pincode": "12345",
+    "mobile_no": "1234567890",
+    "role": "owner",
+    "insurance_number": "ABCD1234"
+}

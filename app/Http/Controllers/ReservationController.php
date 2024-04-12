@@ -48,7 +48,7 @@ class ReservationController extends Controller
         if ($enquiry->AC === 'no') {
             $featuresAC[] = 'nonac';
         } else {
-            $featuresAC[] =  $enquiry->AC;
+            $featuresAC[] =  'ac';
         }
         
         $combinedacseat = $enquiry->seat.'seat' . implode('', $featuresAC);
@@ -69,7 +69,7 @@ class ReservationController extends Controller
         $request->validate([
             'start_date' => 'required|date|after_or_equal:today',
             'end_date' => 'required|date|after:start_date',
-
+            'plan' => 'required',
         ]);
 
 
@@ -78,7 +78,7 @@ class ReservationController extends Controller
 
         $start = Carbon::parse($request->start_date);
         $end = Carbon::parse($request->end_date);
-
+        $plan = $request->input('plan');
         $reservation = new Reservation();
         $reservation->user()->associate($user);
         $reservation->car()->associate($car);
@@ -93,16 +93,17 @@ class ReservationController extends Controller
         
         $combinedacseat = $request->input('combinedacseat');
 
-        $tariff = Tariff::where('plan_name', $combinedacseat)
+     $tariff = Tariff::where('plan_name', $combinedacseat)
     ->where('car_brand', $car->brand)
     ->where('car_model', $car->model)
     ->where('vehicle_type', $car->vehicle_type)
     ->first();
     if ($tariff) {
         $reservation->tariff_id = $tariff->id;
+   
     }
 
-
+    $reservation->tariff_type =$request->input('plan');
 
         $reservation->save();
 
@@ -176,8 +177,5 @@ class ReservationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Reservation $reservation)
-    {
-        //
-    }
+    
 }
