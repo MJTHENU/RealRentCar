@@ -75,9 +75,14 @@
 
                             
 
+<<<<<<< HEAD
                 <!--date-->
                 
                             <div class="sm:col-span-3 hidden" id="date_inputs">
+=======
+
+                            <div class="sm:col-span-3">
+>>>>>>> faebc6c74e55b14f682972a7772e1e51aae44f8c
                                 <label for="start_date" class="block text-sm font-medium leading-6 text-gray-900">Start at
                                 </label>
                                 <div class="mt-2">
@@ -155,9 +160,12 @@
                             </div>
                         </div>
 
+<<<<<<< HEAD
                   
 
                     
+=======
+>>>>>>> faebc6c74e55b14f682972a7772e1e51aae44f8c
                         <div class="sm:col-span-6">
                                 <label class="block text-sm font-medium leading-6 text-gray-900">Plan</label>
                                 <div class="mt-2 flex space-x-6">
@@ -263,6 +271,7 @@
         //     $('#start_date, #end_date').change(function() {
         //         var startDate = new Date($('#start_date').val());
         //         var endDate = new Date($('#end_date').val());
+<<<<<<< HEAD
 
         //         if (startDate && endDate && startDate <= endDate) {
         //             var duration = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
@@ -279,6 +288,45 @@
         // });
 
        
+=======
+
+        //         if (startDate && endDate && startDate <= endDate) {
+        //             var duration = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+        //             var pricePerDay = {{ $car->price_per_day }};
+        //             var totalPrice = duration * pricePerDay;
+
+        //             $('#duration span').text(duration + ' days');
+        //             $('#total-price span').text(totalPrice + ' $');
+        //         } else {
+        //             $('#duration span').text('X days');
+        //             $('#total-price span').text('Y $');
+        //         }
+        //     });
+        // });
+
+        $(document).ready(function() {
+            $('input[name="plan"]').change(function() {
+                var selectedPlan = $('input[name="plan"]:checked').val();
+
+                // Update fields based on the selected plan
+                if (selectedPlan === 'per_km') {
+                    var pricePerKm = {{ $car->price_per_km }};
+                    $('#duration span').text('1 km');
+                    $('#total-price span').text(pricePerKm + ' Rs');
+                } else if (selectedPlan === 'per_hr') {
+                    var pricePerHr = {{ $car->price_per_hr }};
+                    $('#duration span').text('1 hour');
+                    $('#total-price span').text(pricePerHr + ' RS');
+                } else if (selectedPlan === 'per_day') {
+                    var pricePerDay = {{ $car->price_per_day }};
+                    $('#duration span').text('1 day');
+                    $('#total-price span').text(pricePerDay + ' RS');
+                }
+            });
+        });
+
+
+>>>>>>> faebc6c74e55b14f682972a7772e1e51aae44f8c
         document.getElementById("mobile_submit_button").addEventListener("click", function() {
             document.getElementById("reservation_form").submit();
         });

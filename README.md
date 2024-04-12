@@ -2,9 +2,6 @@
 
 This is a car rental project developed for the graduation Project. It is built using the Laravel framework and provides a web application for managing car rental operations.
 
-## Live website:
-
-- check live website [here](https://realrentcar.galdi.dev/)
 
 ## Features
 
@@ -29,13 +26,16 @@ This is a car rental project developed for the graduation Project. It is built u
 
 ## Installation
 
-1. Clone the repository: https://github.com/Mohamed-Galdi/RealRentCar
+1. Clone the repository: https://github.com/MJTHENU/RealRentCar.git
 
 2. Navigate to the project directory: `cd RealRentCar`
 
 3. Install the dependencies using Composer: `composer install`
 
-4. Create a copy of the `.env.example` file and rename it to `.env`. Configure the database settings in the `.env` file.
+4. Create a copy of the `.env.example` file and rename it to `.env`. Configure the database settings in the `.env` file. 
+         OR
+ 
+cp .env.example .env
 
 <!-- 5. Generate an application key: `php artisan key:generate` -->
 
@@ -65,7 +65,4 @@ This is a car rental project developed for the graduation Project. It is built u
 
 We welcome contributions to enhance the project! If you find any issues or have suggestions, please open an issue or submit a pull request.
 
-## Authors
 
--   Mohamed Galdi (contact.galdi@gmail.com)
--   Mohamed Chtitihi (mohamedchtitihi@gmail.com)

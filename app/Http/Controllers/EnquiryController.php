@@ -83,11 +83,14 @@ class EnquiryController extends Controller
        $cars->appends($request->except('page'));
 
 
+<<<<<<< HEAD
 
        
    
 
 
+=======
+>>>>>>> faebc6c74e55b14f682972a7772e1e51aae44f8c
       return view('cars.searchedCars', compact('cars','enquiry'));
       // return view('reservation.create', compact('cars', 'enquiry'));
 

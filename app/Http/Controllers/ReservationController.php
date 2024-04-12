@@ -43,6 +43,7 @@ class ReservationController extends Controller
             'AC' => request()->query('AC')
         ];
     
+<<<<<<< HEAD
 
         $featuresAC = [];
         if ($enquiry->AC === 'no') {
@@ -54,6 +55,9 @@ class ReservationController extends Controller
         $combinedacseat = $enquiry->seat.'seat' . implode('', $featuresAC);
 
         return view('reservation.create', compact('car', 'user', 'enquiry','combinedacseat'));
+=======
+        return view('reservation.create', compact('car', 'user', 'enquiry'));
+>>>>>>> faebc6c74e55b14f682972a7772e1e51aae44f8c
     }
     
 
@@ -90,6 +94,7 @@ class ReservationController extends Controller
         $reservation->status = 'Pending';
         $reservation->payment_method = 'At store';
         $reservation->payment_status = 'Pending';
+<<<<<<< HEAD
         
         $combinedacseat = $request->input('combinedacseat');
 
@@ -104,6 +109,9 @@ class ReservationController extends Controller
     }
 
     $reservation->tariff_type =$request->input('plan');
+=======
+
+>>>>>>> faebc6c74e55b14f682972a7772e1e51aae44f8c
 
         $reservation->save();
 

@@ -22,14 +22,28 @@ return new class extends Migration
             $table->string('min_charge');
             $table->string('extra_km');
             $table->string('waiting_charge');
+<<<<<<< HEAD
             $table->string('car_brand');
             $table->string('car_model');
             $table->string('vehicle_type');
+=======
+>>>>>>> faebc6c74e55b14f682972a7772e1e51aae44f8c
             $table->enum('status', ['active', 'inactive' ])->default('active');
             $table->timestamps();
         });
 
     }
 
+<<<<<<< HEAD
    
 };
+=======
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        //
+    }
+};
+>>>>>>> faebc6c74e55b14f682972a7772e1e51aae44f8c

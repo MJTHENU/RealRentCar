@@ -1,8 +1,11 @@
 @extends('layouts.myapp')
 @section('content')
 
+<<<<<<< HEAD
 
     
+=======
+>>>>>>> faebc6c74e55b14f682972a7772e1e51aae44f8c
     <div class="max-w-screen-xl p-3 mx-auto mt-10 bg-gray-200 rounded-md shadow-xl">
         <form action="{{route('carSearch')}}" >
            <div class="flex justify-center md:flex-row flex-col md:gap-28 gap-4">
