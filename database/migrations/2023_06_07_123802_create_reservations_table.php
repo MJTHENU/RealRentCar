@@ -15,17 +15,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('car_id');
-<<<<<<< HEAD
             $table->unsignedBigInteger('tariff_id')->nullable();
-            
-=======
->>>>>>> faebc6c74e55b14f682972a7772e1e51aae44f8c
             $table->date('start_date');
             $table->date('end_date');
-            $table->decimal('start_km', 10, 0)->default(0);
-            $table->decimal('end_km', 10, 0)->default(0);
-            $table->time('start_hr')->default(0);
-            $table->time('end_hr')->default(0);
+            $table->decimal('start_km', 10, 0)->nullable();
+            $table->decimal('end_km', 10, 0)->nullable();
+            $table->time('start_hr')->nullable();
+            $table->time('end_hr')->nullable();
             $table->enum('plan_type', ['per_km', 'per_hr', 'per_day', '']);
             $table->integer('days')->nullable();
             $table->decimal('kilometer', 10, 0)->nullable();

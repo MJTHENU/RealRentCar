@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\ApiUserController;
 use App\Http\Controllers\Api\CarController;
 use App\Http\Controllers\Api\EnquiryController;
+use App\Http\Controllers\Api\CarSearchApiController;
 
 // User registration route
 Route::post('/register', [RegisterController::class, 'register']);
@@ -20,3 +21,5 @@ Route::apiResource('users', ApiUserController::class);
 Route::apiResource('cars', CarController::class);
 // Enquiries API Routes
 Route::apiResource('enquiries', EnquiryController::class);
+// Cars Search API Routes
+Route::post('cars/search', [CarSearchApiController::class, 'search']);

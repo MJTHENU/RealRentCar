@@ -60,7 +60,6 @@ class carSearchController extends Controller
         $enquiry->vehicle_type = $request->vehicle_type;
         $enquiry->AC = $request->AC;
 
-<<<<<<< HEAD
         $featuresAC = [];
         if ($enquiry->AC === 'no') {
             $featuresAC[] = 'nonac';
@@ -72,8 +71,5 @@ class carSearchController extends Controller
         
 
         return view('cars.searchedCars', compact('cars','enquiry','combinedacseat'));
-=======
-        return view('cars.searchedCars', compact('cars','enquiry'));
->>>>>>> faebc6c74e55b14f682972a7772e1e51aae44f8c
     }
 }

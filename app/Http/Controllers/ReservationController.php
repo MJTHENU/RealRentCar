@@ -43,21 +43,17 @@ class ReservationController extends Controller
             'AC' => request()->query('AC')
         ];
     
-<<<<<<< HEAD
 
         $featuresAC = [];
         if ($enquiry->AC === 'no') {
             $featuresAC[] = 'nonac';
         } else {
-            $featuresAC[] =  'ac';
+            $featuresAC[] =  $enquiry->AC;
         }
         
         $combinedacseat = $enquiry->seat.'seat' . implode('', $featuresAC);
 
         return view('reservation.create', compact('car', 'user', 'enquiry','combinedacseat'));
-=======
-        return view('reservation.create', compact('car', 'user', 'enquiry'));
->>>>>>> faebc6c74e55b14f682972a7772e1e51aae44f8c
     }
     
 
@@ -70,11 +66,23 @@ class ReservationController extends Controller
      */
     public function store(Request $request, $car_id)
     {
-        $request->validate([
-            'start_date' => 'required|date|after_or_equal:today',
-            'end_date' => 'required|date|after:start_date',
-            'plan' => 'required',
-        ]);
+        $rules = [];
+if ($request->plan == 'per_day') {
+    $rules = [
+        'start_date' => 'required|date|after_or_equal:today',
+        'end_date' => 'required|date|after:start_date',
+    ];
+} else if ($request->plan == 'per_hr') {
+    $rules = [
+        'start_date' => 'required|date',
+        'end_date' => 'required|date|after:start_date',
+    ];
+} else if ($request->plan == 'per_km') {
+    $rules = [
+        'start_km' => 'required|numeric',
+        'end_km' => 'required|numeric|gt:start_km', // Assuming end_km should be greater than start_km
+    ];
+}
 
 
         $car = Car::find($car_id);
@@ -82,36 +90,54 @@ class ReservationController extends Controller
 
         $start = Carbon::parse($request->start_date);
         $end = Carbon::parse($request->end_date);
-        $plan = $request->input('plan');
+        $start_hour = Carbon::parse($request->start_hour);
+        $end_hour = Carbon::parse($request->end_hour);
+        $end_km = $request->end_km;
+        $start_km = $request->start_km;
+
         $reservation = new Reservation();
         $reservation->user()->associate($user);
         $reservation->car()->associate($car);
         $reservation->start_date = $start;
         $reservation->end_date = $end;
         $reservation->days = $start->diffInDays($end);
-        $reservation->price_per_day = $car->price_per_day;
-        $reservation->total_price = $reservation->days * $reservation->price_per_day;
+        $reservation->hours = $start_hour->diffInHours($end_hour);
+        $reservation->kilometer = $end_km - $start_km;
+
+        if ($request->plan == 'per_day') {
+            $reservation->price_per_day = $car->price_per_day;
+            $reservation->total_price = $reservation->kilometer * $reservation->price_per_day;
+        } else if ($request->plan == 'per_hr') {
+            $reservation->price_per_hr = $car->price_per_hr; 
+            $reservation->total_price = $reservation->hours * $reservation->price_per_hr; 
+            
+        $reservation->start_hr = $start_hour;
+        $reservation->end_hr = $end_hour;
+        } else if ($request->plan == 'per_km') {
+            $reservation->price_per_km = $car->price_per_km; 
+            $reservation->total_price = $reservation->price_per_km * $reservation->kilometer;
+            
+        $reservation->start_km = $start_km;
+        $reservation->end_km = $end_km;
+        }
+        
+        
         $reservation->status = 'Pending';
-        $reservation->payment_method = 'At store';
+        $reservation->payment_method = 'Cash';
         $reservation->payment_status = 'Pending';
-<<<<<<< HEAD
         
         $combinedacseat = $request->input('combinedacseat');
 
-     $tariff = Tariff::where('plan_name', $combinedacseat)
+        $tariff = Tariff::where('plan_name', $combinedacseat)
     ->where('car_brand', $car->brand)
     ->where('car_model', $car->model)
     ->where('vehicle_type', $car->vehicle_type)
     ->first();
     if ($tariff) {
         $reservation->tariff_id = $tariff->id;
-   
     }
 
-    $reservation->tariff_type =$request->input('plan');
-=======
 
->>>>>>> faebc6c74e55b14f682972a7772e1e51aae44f8c
 
         $reservation->save();
 
@@ -182,8 +208,5 @@ class ReservationController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     
 }
