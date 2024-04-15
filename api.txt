@@ -178,3 +178,47 @@ request type to PUT
 
 endpoint:http://127.0.0.1:8000/api/enquiries/12
 request type to DELETE
+
+Car Search
+@@@@@@@@@@@@@
+endpoint:http://127.0.0.1:8000/api/cars/search
+request type to POST
+{
+    "vehicle_type": "car",
+    "seat": "4",
+    "ac": "yes",
+    "luggage": "2"
+}
+Reservation
+@@@@@@@@@@@@@
+endpoint:http://127.0.0.1:8000/api/reservations/1
+request type to POST
+{
+    "user_id": 5,
+    "start_date": "2024-05-03",
+    "end_date": "2024-05-05",
+    "plan": "per_km",
+    "start_km": 1000,
+    "end_km": 1200,
+    "start_hour": "09:00",
+    "end_hour": "18:00"
+}
+endpoint:http://127.0.0.1:8000/api/reservations/1
+request type to GET
+
+endpoint:http://127.0.0.1:8000/api/reservations/7
+request type to PUT
+{
+    "user_id": 5,
+    "start_date": "2024-05-04",
+    "end_date": "2024-05-06",
+    "plan": "per_day",
+    "start_km": 1000,
+    "end_km": 1500,
+    "start_hour": "09:00",
+    "end_hour": "18:00"
+}
+
+
+endpoint:http://127.0.0.1:8000/api/reservations/1
+request type to DELETE

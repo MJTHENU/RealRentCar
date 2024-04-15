@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ApiUserController;
 use App\Http\Controllers\Api\CarController;
 use App\Http\Controllers\Api\EnquiryController;
 use App\Http\Controllers\Api\CarSearchApiController;
+use App\Http\Controllers\Api\ReservationApiController;
 
 // User registration route
 Route::post('/register', [RegisterController::class, 'register']);
@@ -23,3 +24,11 @@ Route::apiResource('cars', CarController::class);
 Route::apiResource('enquiries', EnquiryController::class);
 // Cars Search API Routes
 Route::post('cars/search', [CarSearchApiController::class, 'search']);
+// Reservations API Routes
+// Route::apiResource('/reservations', ReservationApiController::class);
+Route::post('/reservations/{car_id}', [ReservationApiController::class, 'store']);
+Route::get('/reservations/{id}', [ReservationApiController::class, 'show']);
+Route::put('/reservations/{id}', [ReservationApiController::class, 'update']);
+Route::delete('/reservations/{id}', [ReservationApiController::class, 'destroy']);
+
+
