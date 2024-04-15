@@ -105,7 +105,7 @@ request type to POST
 endpoint:http://127.0.0.1:8000/api/cars
 request type to GET
 
-endpoint:http://127.0.0.1:8000/api/cars
+endpoint:http://127.0.0.1:8000/api/cars/3
 request type to PUT
 {
     "email_id": "kite@gmail.com",
@@ -126,7 +126,53 @@ request type to PUT
     "status": "available",
     "reduce": 1,
     "stars": "5", // Ensure this is a string
-    "image": "/path/to/your\\default.png"
+    "image": "/path/to/your//default.png"
 }
-endpoint:http://127.0.0.1:8000/api/cars
+endpoint:http://127.0.0.1:8000/api/cars/3
+request type to DELETE
+Enquiries
+@@@@@@@@@@@@@
+endpoint:http://127.0.0.1:8000/api/enquiries
+request type to POST
+{
+    "user_id": "6",
+    "name": "Test User",
+    "email": "johndoe@examle.com",
+    "address": "123 Main Street",
+    "mobile_no": "123-456-7890",
+    "start_date": "2024-05-01",
+    "end_date": "2024-05-05",
+    "start_loc": "City A",
+    "end_loc": "City B",
+    "seat": "4",
+    "luggage": "2",
+    "vehicle_type": "car",
+    "AC": "yes",
+    "desc": "This is a test enquiry",
+    "journey_type": "drop"
+}
+endpoint:http://127.0.0.1:8000/api/enquiries
+request type to GET
+
+endpoint:http://127.0.0.1:8000/api/enquiries/12
+request type to PUT
+{
+    "user_id": "6",
+    "name": "Test User",
+    "email": "kite@gmail.com",
+    "address": "123 Main Street",
+    "mobile_no": "123-456-7890",
+    "start_date": "2024-05-01",
+    "end_date": "2024-05-05",
+    "start_loc": "City A",
+    "end_loc": "City B",
+    "seat": "4",
+    "luggage": "2",
+    "vehicle_type": "car",
+    "AC": "yes",
+    "desc": "This is a test enquiry",
+    "journey_type": "drop"
+}
+
+endpoint:http://127.0.0.1:8000/api/enquiries/12
 request type to DELETE

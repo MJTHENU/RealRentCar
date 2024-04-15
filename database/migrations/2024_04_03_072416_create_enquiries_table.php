@@ -23,13 +23,12 @@ return new class extends Migration
             $table->string('start_loc');
             $table->string('end_loc');
             $table->string('seat');
-            $table->string('luggage');
+            $table->string('luggage'); // Corrected field name
             $table->string('vehicle_type');
             $table->enum('AC', ['yes','no']);
             $table->string('desc');
             $table->enum('journey_type', ['drop','drop&pickup']);
             $table->timestamps();
-
         });
     }
 

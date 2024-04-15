@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Enquiry extends Model
 {
     use HasFactory;
+    
     protected $fillable = [
         'user_id',
         'name',
@@ -19,7 +20,7 @@ class Enquiry extends Model
         'start_loc',
         'end_loc',
         'seat',
-        'luckage',
+        'luggage', // Corrected field name
         'vehicle_type',
         'AC',
         'desc',
@@ -27,6 +28,6 @@ class Enquiry extends Model
     ];
 
     protected $casts = [
-        'AC' => 'string', // Assuming you want 'AC' to be casted as string
+        'AC' => 'string',
     ];
 }
