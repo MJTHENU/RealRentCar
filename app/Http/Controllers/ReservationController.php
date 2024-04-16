@@ -6,7 +6,6 @@ use App\Models\Car;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Trip;
 use App\Models\Tariff;
 use Carbon\Carbon;
 
@@ -51,118 +50,106 @@ class ReservationController extends Controller
         } else {
             $featuresAC[] =  $enquiry->AC;
         }
+
         
         $combinedacseat = $enquiry->seat.'seat' . implode('', $featuresAC);
 
-        return view('reservation.create', compact('car', 'user', 'enquiry','combinedacseat'));
+        $tariff = Tariff::where('plan_name', $combinedacseat)
+                        ->where('car_brand', $car->brand)
+                        ->where('car_model', $car->model)
+                        ->where('vehicle_type', $car->vehicle_type)
+                        ->first();
+        
+                        // dd($tariff);
+
+        return view('reservation.create', compact('car', 'user', 'enquiry','combinedacseat', 'tariff'));
     }
     
 
-    public function show(Reservation $reservation77)
+    public function show(Reservation $reservation)
     {
        
     }
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $car_id, Trip $trip)
+    public function store(Request $request, $car_id)
     {
         $rules = [];
-if ($request->plan == 'per_day') {
-    $rules = [
-        'start_date' => 'required|date|after_or_equal:today',
-        'end_date' => 'required|date|after:start_date',
-    ];
-} else if ($request->plan == 'per_hr') {
-    $rules = [
-        'start_date' => 'required|date',
-        'end_date' => 'required|date|after:start_date',
-    ];
-} else if ($request->plan == 'per_km') {
-    $rules = [
-        'start_km' => 'required|numeric',
-        'end_km' => 'required|numeric|gt:start_km', // Assuming end_km should be greater than start_km
-    ];
-}
-
-
+        if ($request->plan == 'per_day') {
+            $rules = [
+                'start_date' => 'required|date|after_or_equal:today',
+                'end_date' => 'required|date|after:start_date',
+            ];
+        } else if ($request->plan == 'per_hr') {
+            $rules = [
+                'start_date' => 'required|date',
+                'end_date' => 'required|date|after:start_date',
+            ];
+        } else if ($request->plan == 'per_km') {
+            $rules = [
+                'start_km' => 'required|numeric',
+                'end_km' => 'required|numeric|gt:start_km', // Assuming end_km should be greater than start_km
+            ];
+        }
+    
         $car = Car::find($car_id);
         $user = User::find($request->user);
-
+    
         $start = Carbon::parse($request->start_date);
         $end = Carbon::parse($request->end_date);
         $start_hour = Carbon::parse($request->start_hour);
         $end_hour = Carbon::parse($request->end_hour);
         $end_km = $request->end_km;
         $start_km = $request->start_km;
-
+    
         $reservation = new Reservation();
-        $trip = new Trip();
-        $trip->user()->associate($user);
         $reservation->user()->associate($user);
-       
         $reservation->car()->associate($car);
         $reservation->start_date = $start;
-        $trip->start_date = $start;
         $reservation->end_date = $end;
-        $trip->end_date = $end;
         $reservation->days = $start->diffInDays($end);
-        
         $reservation->hours = $start_hour->diffInHours($end_hour);
-       
         $reservation->kilometer = $end_km - $start_km;
-        
-
-        if ($request->plan == 'per_day') {
-            $reservation->price_per_day = $car->price_per_day;
-            $reservation->total_price = $reservation->kilometer * $reservation->price_per_day;
-            
-        } else if ($request->plan == 'per_hr') {
-            $reservation->price_per_hr = $car->price_per_hr; 
-            $reservation->total_price = $reservation->hours * $reservation->price_per_hr; 
-            
-        $reservation->start_hr = $start_hour;
-        $trip->start_hr = $start_hour;
-        $trip->end_hr = $end_hour;
-        } else if ($request->plan == 'per_km') {
-            $reservation->price_per_km = $car->price_per_km; 
-            $reservation->total_price = $reservation->price_per_km * $reservation->kilometer;           
-            $reservation->start_km = $start_km;
-            $reservation->end_km = $end_km;
-            $trip->start_km = $start_km;
-            $trip->end_km = $end_km;
+    
+        $combinedacseat = $request->input('combinedacseat');
+    
+        $tariff = Tariff::where('plan_name', $combinedacseat)
+                        ->where('car_brand', $car->brand)
+                        ->where('car_model', $car->model)
+                        ->where('vehicle_type', $car->vehicle_type)
+                        ->first();
+    
+        if ($tariff) {
+            if ($request->plan == 'per_day') {
+                $reservation->price_per_day = $tariff->price_per_day;
+                $reservation->total_price = $reservation->days * $reservation->price_per_day;
+            } else if ($request->plan == 'per_hr') {
+                $reservation->price_per_hr = $tariff->price_per_hr; 
+                $reservation->total_price = $reservation->hours * $reservation->price_per_hr; 
+                $reservation->start_hr = $start_hour;
+                $reservation->end_hr = $end_hour;
+            } else if ($request->plan == 'per_km') {
+                $reservation->price_per_km = $tariff->price_per_km; 
+                $reservation->total_price = $reservation->kilometer * $reservation->price_per_km;
+                $reservation->start_km = $start_km;
+                $reservation->end_km = $end_km;
             }
-        
-        
+            $reservation->tariff_id = $tariff->id;
+        }
+    
         $reservation->status = 'Pending';
         $reservation->payment_method = 'Cash';
         $reservation->payment_status = 'Pending';
-        
-        $combinedacseat = $request->input('combinedacseat');
-
-        $tariff = Tariff::where('plan_name', $combinedacseat)
-    ->where('car_brand', $car->brand)
-    ->where('car_model', $car->model)
-    ->where('vehicle_type', $car->vehicle_type)
-    ->first();
-    if ($tariff) {
-        $reservation->tariff_id = $tariff->id;
-    }
-
-
-
+    
         $reservation->save();
-        $trip->save();
-
-        
+    
         $car->status = 'Reserved';
         $car->save();
-        
-
- 
-
-        return view('thankyou',['reservation'=>$reservation] );
+    
+        return view('thankyou', ['reservation' => $reservation]);
     }
+    
 
     /**
      * Display the specified resource.
@@ -201,31 +188,17 @@ if ($request->plan == 'per_day') {
 
     public function updateStatus(Reservation $reservation, Request $request)
     {
-        // Find the reservation
         $reservation = Reservation::find($reservation->id);
-        
-        // Update reservation status
         $reservation->status = $request->status;
-        
-        // Update payment status
-        $reservation->payment_status = $request->paymentstatus;
-        $reservation->payment_method = $request->paymentmethod;
-        // Save the changes
-        $reservation->save();
-        
-        // Update car status if needed
         $car = $reservation->car;
-        if ($request->status == 'Ended' || $request->status == 'Canceled') {
+        if($request->status == 'Ended' || $request->status == 'Canceled' ){
             $car->status = 'Available';
             $car->save();
         }
-        
-        // Redirect back to the admin dashboard
+        $reservation->save();
         return redirect()->route('adminDashboard');
     }
-    
-    
-    
+
     /**
      * Update the specified resource in storage.
      */
@@ -234,8 +207,5 @@ if ($request->plan == 'per_day') {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     
 }

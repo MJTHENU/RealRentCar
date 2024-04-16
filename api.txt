@@ -278,3 +278,60 @@ request type to GET
     "start_date": "2024-04-20",
     "end_date": "2024-04-25"
 }
+
+
+Trip
+@@@@@@@@@@@@@
+endpoint:http://127.0.0.1:8000/api/trips
+request type to POST
+{
+    "user_id": "2",
+    "booking_id": "4",
+    "driver_id": "3",
+    "start_loc": "Surandai",
+    "end_loc": "Tenkasi",
+    "start_date": "2024-04-20 08:00:00",
+    "end_date": "2024-04-20 18:00:00",
+    "start_hr": "08:00:00",
+    "end_hr": "18:00:00",
+    "start_km": "100",
+    "end_km": "200",
+    "extra_km": "50",
+    "extra_charge": "20.00",
+    "min_charge": "10.00",
+    "waiting_charge": "5.00",
+    "toll_charge": "15.00",
+    "other_charges": "25.00",
+    "total_amount": "250.00",
+    "payment_status": "pending",
+    "status": "process"
+}
+endpoint:http://127.0.0.1:8000/api/trips
+request type to GET
+
+endpoint:http://127.0.0.1:8000/api/trips/2
+request type to PUT
+{
+    "user_id": "2",
+    "booking_id": "4",
+    "driver_id": "3",
+    "start_loc": "Surandai",
+    "end_loc": "Madurai",
+    "start_date": "2024-04-20 08:00:00",
+    "end_date": "2024-04-20 18:00:00",
+    "start_hr": "08:00:00",
+    "end_hr": "18:00:00",
+    "start_km": "100",
+    "end_km": "200",
+    "extra_km": "50",
+    "extra_charge": "20.00",
+    "min_charge": "10.00",
+    "waiting_charge": "5.00",
+    "toll_charge": "15.00",
+    "other_charges": "25.00",
+    "total_amount": "250.00",
+    "payment_status": "pending",
+    "status": "process"
+}
+endpoint:http://127.0.0.1:8000/api/trips
+request type to DELETE

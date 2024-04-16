@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\CarSearchApiController;
 use App\Http\Controllers\Api\ReservationApiController;
 use App\Http\Controllers\Api\TariffController;
 use App\Http\Controllers\Api\ClientCarController;
+use App\Http\Controllers\Api\TripController;
+
 
 // User registration route
 Route::post('/register', [RegisterController::class, 'register']);
@@ -39,6 +41,7 @@ Route::apiResource('tariffs', TariffController::class);
 // Define routes for the ClientCarController
 Route::get('/ccars', [ClientCarController::class, 'index']);
 Route::get('/ccars/{id}', [ClientCarController::class, 'show']);
-
+// Trip API Routes
+Route::apiResource('trips', TripController::class);
 
 
