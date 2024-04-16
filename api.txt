@@ -267,3 +267,14 @@ request type to PUT
 }
 endpoint:http://127.0.0.1:8000/api/tariffs/4
 request type to DELETE
+
+
+
+ClientCar
+@@@@@@@@@@@@@
+endpoint:http://127.0.0.1:8000/api/ccars
+request type to GET
+{
+    "start_date": "2024-04-20",
+    "end_date": "2024-04-25"
+}

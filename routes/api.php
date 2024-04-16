@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\EnquiryController;
 use App\Http\Controllers\Api\CarSearchApiController;
 use App\Http\Controllers\Api\ReservationApiController;
 use App\Http\Controllers\Api\TariffController;
+use App\Http\Controllers\Api\ClientCarController;
 
 // User registration route
 Route::post('/register', [RegisterController::class, 'register']);
@@ -35,7 +36,9 @@ Route::delete('/reservations/{id}', [ReservationApiController::class, 'destroy']
 
 // Tariff API Routes
 Route::apiResource('tariffs', TariffController::class);
-
+// Define routes for the ClientCarController
+Route::get('/ccars', [ClientCarController::class, 'index']);
+Route::get('/ccars/{id}', [ClientCarController::class, 'show']);
 
 
 
