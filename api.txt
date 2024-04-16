@@ -222,3 +222,48 @@ request type to PUT
 
 endpoint:http://127.0.0.1:8000/api/reservations/1
 request type to DELETE
+
+
+Tariffs
+@@@@@@@@@@@@@
+endpoint:http://127.0.0.1:8000/api/tariffs
+request type to POST
+{
+    "plan_name": "Standard",
+    "tariff_type": "per_km",
+    "price_per_km": 5.5,
+    "price_per_hr": null,
+    "price_per_day": null,
+    "max_km": 100,
+    "min_charge": 10.00,
+    "extra_km": 0.25,
+    "waiting_charge": 5.00,
+    "car_brand": "Toyota",
+    "car_model": "Corolla",
+    "vehicle_type": "Sedan",
+    "status": "active"
+}
+endpoint:http://127.0.0.1:8000/api/tariffs
+request type to GET
+endpoint:http://127.0.0.1:8000/api/tariffs/4
+request type to GET
+
+endpoint:http://127.0.0.1:8000/api/tariffs/4
+request type to PUT
+{
+    "plan_name": "Standard",
+    "tariff_type": "per_day",
+    "price_per_km": null,
+    "price_per_hr": null,
+    "price_per_day": 105,
+    "max_km": 100,
+    "min_charge": 10.00,
+    "extra_km": 0.25,
+    "waiting_charge": 5.00,
+    "car_brand": "Toyota",
+    "car_model": "Corolla",
+    "vehicle_type": "Sedan",
+    "status": "active"
+}
+endpoint:http://127.0.0.1:8000/api/tariffs/4
+request type to DELETE

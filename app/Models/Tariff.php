@@ -8,23 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Tariff extends Model
 {
     use HasFactory;
-<<<<<<< HEAD
-=======
 
->>>>>>> faebc6c74e55b14f682972a7772e1e51aae44f8c
-    protected $table = 'tariff';
+    protected $table = 'tariffs'; // Corrected table name to match the migration
 
     protected $fillable = [
         'plan_name',
-<<<<<<< HEAD
         'vehicle_type',
-            'brand',
-            'model',
+        'car_brand', // Corrected field name to match the migration
+        'car_model', // Corrected field name to match the migration
         'tariff_type',
-        
-=======
-        'tariff_type',
->>>>>>> faebc6c74e55b14f682972a7772e1e51aae44f8c
         'price_per_km',
         'price_per_hr',
         'price_per_day',
@@ -36,13 +28,6 @@ class Tariff extends Model
     ];
 
     protected $casts = [
-<<<<<<< HEAD
-        'status' => 'string', // assuming 'status' is a string enum
+        'status' => 'string', // No need for the extra space after 'string'
     ];
-    
 }
-=======
-        'status' => 'string', // assuming 'status' is a string enum
-    ];
-}
->>>>>>> faebc6c74e55b14f682972a7772e1e51aae44f8c

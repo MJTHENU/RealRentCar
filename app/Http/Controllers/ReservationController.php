@@ -6,6 +6,7 @@ use App\Models\Car;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Trip;
 use App\Models\Tariff;
 use Carbon\Carbon;
 
@@ -57,14 +58,14 @@ class ReservationController extends Controller
     }
     
 
-    public function show(Reservation $reservation)
+    public function show(Reservation $reservation77)
     {
        
     }
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $car_id)
+    public function store(Request $request, $car_id, Trip $trip)
     {
         $rules = [];
 if ($request->plan == 'per_day') {
@@ -96,30 +97,41 @@ if ($request->plan == 'per_day') {
         $start_km = $request->start_km;
 
         $reservation = new Reservation();
+        $trip = new Trip();
+        $trip->user()->associate($user);
         $reservation->user()->associate($user);
+       
         $reservation->car()->associate($car);
         $reservation->start_date = $start;
+        $trip->start_date = $start;
         $reservation->end_date = $end;
+        $trip->end_date = $end;
         $reservation->days = $start->diffInDays($end);
+        
         $reservation->hours = $start_hour->diffInHours($end_hour);
+       
         $reservation->kilometer = $end_km - $start_km;
+        
 
         if ($request->plan == 'per_day') {
             $reservation->price_per_day = $car->price_per_day;
             $reservation->total_price = $reservation->kilometer * $reservation->price_per_day;
+            
         } else if ($request->plan == 'per_hr') {
             $reservation->price_per_hr = $car->price_per_hr; 
             $reservation->total_price = $reservation->hours * $reservation->price_per_hr; 
             
         $reservation->start_hr = $start_hour;
-        $reservation->end_hr = $end_hour;
+        $trip->start_hr = $start_hour;
+        $trip->end_hr = $end_hour;
         } else if ($request->plan == 'per_km') {
             $reservation->price_per_km = $car->price_per_km; 
-            $reservation->total_price = $reservation->price_per_km * $reservation->kilometer;
-            
-        $reservation->start_km = $start_km;
-        $reservation->end_km = $end_km;
-        }
+            $reservation->total_price = $reservation->price_per_km * $reservation->kilometer;           
+            $reservation->start_km = $start_km;
+            $reservation->end_km = $end_km;
+            $trip->start_km = $start_km;
+            $trip->end_km = $end_km;
+            }
         
         
         $reservation->status = 'Pending';
@@ -140,7 +152,7 @@ if ($request->plan == 'per_day') {
 
 
         $reservation->save();
-
+        $trip->save();
 
         
         $car->status = 'Reserved';
@@ -189,17 +201,31 @@ if ($request->plan == 'per_day') {
 
     public function updateStatus(Reservation $reservation, Request $request)
     {
+        // Find the reservation
         $reservation = Reservation::find($reservation->id);
+        
+        // Update reservation status
         $reservation->status = $request->status;
+        
+        // Update payment status
+        $reservation->payment_status = $request->paymentstatus;
+        $reservation->payment_method = $request->paymentmethod;
+        // Save the changes
+        $reservation->save();
+        
+        // Update car status if needed
         $car = $reservation->car;
-        if($request->status == 'Ended' || $request->status == 'Canceled' ){
+        if ($request->status == 'Ended' || $request->status == 'Canceled') {
             $car->status = 'Available';
             $car->save();
         }
-        $reservation->save();
+        
+        // Redirect back to the admin dashboard
         return redirect()->route('adminDashboard');
     }
-
+    
+    
+    
     /**
      * Update the specified resource in storage.
      */
@@ -208,5 +234,8 @@ if ($request->plan == 'per_day') {
         //
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     
 }
